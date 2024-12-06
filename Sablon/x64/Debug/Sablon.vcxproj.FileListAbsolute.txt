@@ -1,3 +1,4 @@
 C:\Users\NTP400-XXXXX\Desktop\RG2024\Teksture\x64\Debug\glew32.dll
 M:\FTN\IV godina\RG\Teksture\x64\Debug\glew32.dll
 M:\FTN\IV godina\RG\Projekat\Projekat\x64\Debug\glew32.dll
+M:\FTN\IV godina\RG\rg_projekat\x64\Debug\glew32.dll
