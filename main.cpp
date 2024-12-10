@@ -23,6 +23,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <map>
+#include <chrono>
+#include <thread>
+
+
 
 unsigned int compileShader(GLenum type, const char* source);
 unsigned int createShader(const char* vsSource, const char* fsSource);
@@ -42,6 +46,8 @@ struct Character {
 std::map<GLchar, Character> Characters;
 unsigned int letterVAO, letterVBO;
 
+const int TARGET_FPS = 60;
+const double TARGET_FRAME_TIME = 1.0 / TARGET_FPS;
 
 std::string displayText = "   :";
 int digitCount = 0;  
@@ -64,6 +70,17 @@ int main(void)
         return 1;
     }
 
+    float deltaTime = 0.0f;   // Početno vreme između frame-ova
+    float lastFrame = 0.0f;
+
+    if (deltaTime < TARGET_FRAME_TIME) {
+        std::cout << "Delta time: " << deltaTime << "\tSleep for: " << static_cast<int>((TARGET_FRAME_TIME - deltaTime) * 1000) << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>((TARGET_FRAME_TIME - deltaTime) * 1000)));
+    }
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -71,7 +88,7 @@ int main(void)
     GLFWwindow* window;
     unsigned int wWidth = 800;
     unsigned int wHeight = 800;
-    const char wTitle[] = "[Generic Title]";
+    const char wTitle[] = "Microwave";
     window = glfwCreateWindow(wWidth, wHeight, wTitle, NULL, NULL);
     
     if (window == NULL)
